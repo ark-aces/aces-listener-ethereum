@@ -1,0 +1,33 @@
+serverInfo:
+  name: "AcesListenerEthereum"
+  description: "ACES Listener implementation for Ethereum"
+  version: "1.0.0"
+  websiteUrl: "https://arkaces.com"
+
+maxScanBlockDepth: 4
+
+ethereumRpc:
+  url: http://127.0.0.1:8545
+
+server:
+  port: 9090
+
+arkAuth:
+  requireAuth: false
+
+  # Ark Network to use for fetching and broadcasting ark auth transactions
+  arkNetworkConfigPath: "ark_network_config/localnet.yml"
+
+  # The address that fees are sent to
+  serviceArkAddress: "ARNJJruY6RcuYCXcwWsu4bx9kyZtntqeAx"
+
+  # Amount of ARK required in your stake account address
+  minArkStake: "0"
+
+  # Amount of ARK to charge payment account every 24 hours to keep
+  # API key active
+  arkFee: "0"
+
+logging:
+  level:
+    com.arkaces.aces_listener_ethereum.EthereumEventListener: ERROR

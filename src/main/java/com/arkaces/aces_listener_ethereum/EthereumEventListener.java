@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -27,13 +29,21 @@ public class EthereumEventListener {
     @Scheduled(fixedDelay = 1000)
     public void scanTransactions() {
         try {
+            log.info("Scanning for transactions " + LocalDateTime.now().toString());
+
             // Get first block (latest block)
             Block latestBlock = ethereumRpcClient.getLatestBlock();
+
+            log.info("last block " + latestBlock);
+
             Integer latestBlockNumber = Integer.decode(latestBlock.getNumber());
+
+            log.info("last block number: " + latestBlockNumber);
 
             // Iterate through blocks using parent hash of last block
             Block lastBlock = latestBlock;
             for (int i = 1; i <= maxScanBlockDepth; i++) {
+                log.info("Scan depth " + i);
                 Block block = ethereumRpcClient.getBlockByHash(lastBlock.getParentHash());
                 if (block == null) {
                     continue;
@@ -44,6 +54,8 @@ public class EthereumEventListener {
 
                     Integer blockNumber = Integer.decode(transaction.getBlockNumber());
                     Integer confirmations = latestBlockNumber - blockNumber;
+
+                    log.info("saving transaction: " + transaction);
 
                     JsonNode transactionJsonNode = objectMapper.convertValue(transaction, JsonNode.class);
 

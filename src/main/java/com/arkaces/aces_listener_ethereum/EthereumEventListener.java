@@ -50,7 +50,7 @@ public class EthereumEventListener {
                 }
                 for (Transaction transaction : block.getTransactions()) {
                     String transactionId = transaction.getHash();
-                    String recipientAddress = transaction.getFrom();
+                    String recipientAddress = transaction.getTo();
 
                     Integer blockNumber = Integer.decode(transaction.getBlockNumber());
                     Integer confirmations = latestBlockNumber - blockNumber;
